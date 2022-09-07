@@ -1,0 +1,11 @@
+create table transactions
+(
+	id serial,
+	"networkId" int,
+	address varchar(200),
+	answer text,
+	transaction_id varchar(200),
+	"createdAt" timestamptz default CURRENT_TIMESTAMP(3),
+	"updatedAt" timestamptz default CURRENT_TIMESTAMP(3)
+);
+

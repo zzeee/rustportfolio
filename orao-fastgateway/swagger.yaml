@@ -1,0 +1,229 @@
+swagger: "2.0"
+info:
+  title: "Orao swagger"
+  description: >
+    Orao API.
+  version: "1.0.0"
+schemes:
+  - "http"
+host: "localhost:8000"
+paths:
+  /live:
+    get:
+      summary: "Check the status of the service"
+      description: "If the service is up and running correctly the response will be 'UP'"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Service is up and healthy"
+          schema:
+            $ref: "#/definitions/Health"
+        500:
+          $ref: '#/responses/500'
+  /v1/update:
+    post:
+      summary: "Parse request from data provider"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Writes to the database the request from user"
+          required: true
+          schema:
+            $ref: "#/definitions/OraoArray"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Information saved successfully"
+        500:
+          $ref: '#/responses/500'
+  /v2/update:
+    post:
+      summary: "Parse request from data provider"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/OraoArrayV2"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Successfull update"
+        500:
+          $ref: '#/responses/500'
+  /v3/update_structured:
+    post:
+      summary: "Parse request from data provider"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/OraoArrayV3"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Successfull update"
+        500:
+          $ref: '#/responses/500'
+  /v3/getarray:
+    post:
+      summary: "Get data to write to blockchain"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/ReqArrayStrucV3"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Data"
+        500:
+          $ref: '#/responses/500'
+  /v3/getallarray:
+    post:
+      summary: "Get data by node_id and block_id to write to blockchain"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/ReqDirect"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Data"
+        500:
+          $ref: '#/responses/500'
+
+responses:
+  500:
+    description: Internal Server Error
+    schema:
+      $ref: '#/definitions/Error'
+
+definitions:
+  Health:
+    type: "object"
+    properties:
+      status:
+        type: "string"
+        enum:
+          - "UP"
+          - "DOWN"
+  Error:
+    type: "string"
+    example: "Internal server error"
+  OraoArrayV2:
+    type: "object"
+    properties:
+      provider:
+        type: "array"
+        items:
+          type: "integer"
+          format: int64
+        example: [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1]
+      data:
+        type: "array"
+        properties:
+          vector_id:
+            type: integer
+          protocol_id:
+            type: integer
+          value:
+            type: string
+        example:
+          - vector_id: 10
+            protocol_id: 23
+            value: 40001
+          - vector_id: 20
+            protocol_id: 13
+            value: 234234
+  OraoArrayV3:
+    type: "object"
+    properties:
+      provider:
+        type: "array"
+        items:
+          type: "integer"
+          format: int64
+        example: [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1]
+      data:
+        type: "array"
+        properties:
+          vector_id:
+            type: integer
+          protocol_id:
+            type: array
+            items:
+              type: "integer"
+              format: int64
+          value:
+            type: string
+        example:
+          - vector_id: 10
+            protocol_id: [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1]
+            value: 40001
+          - vector_id: 20
+            protocol_id: [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1]
+            value: 234234
+  ReqArrayStrucV3:
+    type: "object"
+    properties:
+      node_id:
+        type: "integer"
+        example: 23
+      block_id:
+        type: "integer"
+        example: 2323
+      vectors:
+        type: "array"
+        items:
+          type: "integer"
+          format: int64
+        example: [ 10,20,30 ]
+      protocol_id:
+        type: "array"
+        items:
+          type: "integer"
+          format: int64
+        example: [ 0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1 ]
+
+  ReqDirect:
+    type: "object"
+    properties:
+      node_id:
+        type: "integer"
+        example: "232"
+      block_id:
+        type: "integer"
+        example: "12345"
+  LoginToken:
+    type: "object"
+    properties:
+      key:
+        type: "string"
+        example: "281e0557540f50536ec5bd7f066044125391b1a33b6793166135a294a2d870d36757f7fc276c29670b8c78ceede96076e6f1686d368f7c05b8fcc8e33045a1be"
+
+
+
+

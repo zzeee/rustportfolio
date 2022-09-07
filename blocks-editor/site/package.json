@@ -1,0 +1,14 @@
+{
+  "scripts": {
+    "dev": "webpack-dev-server  ",
+        "ngrok": "ngrok http https://192.168.1.10:8080 --host-header=\"0.0.0.0:8080\""
+  },
+  "dependencies": {
+
+  },
+  "devDependencies": {
+    "webpack": "^4.25.1",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10"
+  }
+}

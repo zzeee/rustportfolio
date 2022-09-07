@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="71ce2dea-ccbc-45b1-8fbe-42494a6927dc" name="pi">
+        <fileTransfer rootFolder="/home/pi/rust2" accessType="SFTP" host="192.168.1.14" port="22" sshConfigId="a5e831be-baa5-40a4-9373-6409bc9a3a7a" sshConfig="pi@192.168.1.14:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
